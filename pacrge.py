@@ -94,7 +94,7 @@ def getFailed():
     if len(fPackage) != 0:
         print("failed to build the following packages:\033[1;31m", '\033[0m,\033[1;31m '.join(str(x) for x in fPackage))
     elif not len(uPackage):
-        print("\033[1;31mNo upgrade packages are available")
+        print("\033[1;31mNo upgrade packages are available\033[0;0m")
 
 
 def main():
