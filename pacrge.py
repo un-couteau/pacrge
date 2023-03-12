@@ -154,15 +154,19 @@ def get_complining() -> typing.NoReturn:
         if i in package_clang_lto:
             if os.system(f"yes | makepkg -sric --config {script_dir}/makepkg-clang-lto.conf") != 0:
                 failed_package_clang_lto.append(i)
+            os.chdir("../../")
         elif i in failed_package_gcc_lto:
             if os.system(f"yes | makepkg -sric --config {script_dir}/makepkg-gcc-lto.conf") != 0:
                 failed_package_gcc_lto.append(i)
+            os.chdir("../../")
         elif i in failed_package_clang:
             if os.system(f"yes | makepkg -sric --config {script_dir}/makepkg-clang.conf") != 0:
                 failed_package_clang.append(i)
+            os.chdir("../../")
         else:
             if os.system(f"yes | makepkg -sric --config {script_dir}/makepkg-gcc.conf") != 0:
                 failed_package_gcc.append(i)
+            os.chdir("../../")
 
 
 def get_failed() -> typing.NoReturn:
