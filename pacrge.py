@@ -35,6 +35,8 @@ def config_generate() -> typing.NoReturn:
                              "Clang-Packages-LTO": "",
                              "Gcc-Packages-LTO": "",
                              "#list package names with ','": "example: Clang-Packages-LTO: mesa,firefox"}
+        os.makedirs("config", exist_ok=True)
+
         with open("./config/pacrge.conf", "w+") as config_file:
             config.write(config_file)
 
