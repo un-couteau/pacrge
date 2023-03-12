@@ -87,7 +87,7 @@ def source_directory() -> typing.NoReturn:
 
         asp_dir_ask: str = input("Do you want to change? [\033[32mN\033[0m/\033[31my\033[0m]: ").lower()
         global script_dir
-        script_dir = os.getenv("HOME")
+        script_dir = os.getcwd()
         if asp_dir_ask == 'y':
             asp_dir_src: str = input("Enter the directory for the build: ")
             try:
@@ -99,7 +99,17 @@ def source_directory() -> typing.NoReturn:
                     return True
             finally:
                 return False
+        else:
+            os.makedirs("src", exist_ok=True)
+            config.set("general", "folder-for-assembly", f"{script_dir}/src")
 
+            with open("config/pacrge.conf", "w+") as config_file:
+                config.write(config_file)
+            os.chdir(f"{script_dir}/src")
+            return True
+    else:
+        os.chdir(config["general"]["folder-for-assembly"])
+        return True
 
 def get_package() -> bool:
     os.system("sudo pacman -Sy")
