@@ -111,6 +111,7 @@ def source_directory() -> typing.NoReturn:
         os.chdir(config["general"]["folder-for-assembly"])
         return True
 
+
 def get_package() -> bool:
     os.system("sudo pacman -Sy")
 
@@ -125,13 +126,17 @@ def get_package() -> bool:
 
 
 def get_makepkg() -> typing.NoReturn:
+    if not len(upgrade_package):
+        return False
     for i in upgrade_package:
         if not os.path.exists(i):
             os.system(f"asp checkout {i}")
         else:
             os.chdir(i)
-            git.Remote.pull()
+            os.system("git pull")
+            # # git.Remote.pull(self=)
             os.chdir("../")
+    return True
 
 
 def get_complining() -> typing.NoReturn:
@@ -183,11 +188,13 @@ def main():
         if not dependency_check():
             if source_directory():
                 if get_package():
-                    get_makepkg()
-                    get_complining()
-                    get_failed()
+                    if get_makepkg():
+                        get_complining()
+                        get_failed()
+                    else:
+                        print("Nothing to update")
                 else:
-                    print("the wrong argument was entered")
+                    print("The wrong argument was entered")
             else:
                 print("Wrong path indicated")
         else:
