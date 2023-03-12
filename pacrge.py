@@ -14,7 +14,6 @@ import subprocess
 import typing
 
 import distro
-import git
 
 __author__ = "Software Un Couteau"
 __copyright__ = "Copyright (C) 2022-2023 Un Couteau"
@@ -73,12 +72,13 @@ def dependency_check() -> bool:
         print("You do not have ASP (Arch Build System) installed")
 
         asp_install: str = input("You want to install it? [\033[32mY\033[0m/\033[31mn\033[0m] ").upper()
-        # try:
-        if asp_install == 'Y' or asp_install == '':
-            if os.system("sudo pacman -Sy asp") == 0:
-                return True
-        # finally:
-        return False
+        try:
+            if asp_install == 'Y' or asp_install == '':
+                if os.system("sudo pacman -Sy asp") == 0:
+                    return True
+        finally:
+            return False
+    return True
 
 
 def source_directory() -> typing.NoReturn:
@@ -185,7 +185,7 @@ def main():
         config_generate()
         config_parse()
         key_verification()
-        if not dependency_check():
+        if dependency_check():
             if source_directory():
                 if get_package():
                     if get_makepkg():
